@@ -1,0 +1,61 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: demo-idp-ingress
+  annotations:
+    kubernetes.io/ingress.class: "ip"
+spec:
+  rules:
+    - host: demo-idp.ip.cicdv2.dev.rktlyr.com
+      http:
+        paths:
+            - path: /
+              backend:
+                serviceName: demo-idp-service
+                servicePort: service-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-idp-service
+spec:
+  type: ClusterIP
+  selector:
+    app: demo-idp
+  ports:
+    - name: service-port
+      port: 7999
+      targetPort: kc-container
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-idp
+
+spec:
+  selector:
+    matchLabels:
+      app: demo-idp
+
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: demo-idp
+    spec:
+      serviceAccount: {{ .Values.gke.serviceAccount }}
+      containers:
+        - name: demo-idp
+          image: quay.io/keycloak/keycloak:16.1.0
+          ports:
+            - name: kc-container
+              containerPort: 8080
+          env:
+            - name: PROXY_ADDRESS_FORWARDING
+              value: 'true'
+            - name: KEYCLOAK_USER
+              value: admin
+            - name: KEYCLOAK_PASSWORD
+              value: admin
+            - name: DB_VENDOR
+              value: h2

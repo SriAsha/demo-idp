@@ -1,0 +1,4 @@
+gcpProject:
+  profile: development
+gke:
+  serviceAccount: gke-service-account
