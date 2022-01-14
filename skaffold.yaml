@@ -23,8 +23,6 @@ deploy:
       - &demo-idp
         name: keycloak
         chartPath: charts/keycloak
-        valuesFiles:
-          - env-values/{{ or .ENVIRONMENT_TYPE "dev" }}-values.yaml
 
 profiles:
 
