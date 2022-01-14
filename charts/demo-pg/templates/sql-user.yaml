@@ -8,4 +8,3 @@ spec:
   instanceRef:
     external: {{ .Values.infrastructure.postgresInstanceName }}
   password: {{ .Values.demo-idp.sqluser.password }}
-
