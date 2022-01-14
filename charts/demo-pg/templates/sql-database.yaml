@@ -4,9 +4,7 @@ metadata:
   name: {{ .Release.Namespace }}-demo-idp-database
   annotations:
     cnrm.cloud.google.com/project-id: {{ .Values.gcpProject.id }}
-    {{- if eq .Values.cloudSql.abandonOnDelete "true" }}
     cnrm.cloud.google.com/deletion-policy: "abandon"
-    {{- end }}
 spec:
   charset: utf8
   instanceRef:
