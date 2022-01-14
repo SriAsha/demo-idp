@@ -23,8 +23,6 @@ deploy:
       - &demo-pg
         name: demo-pg
         chartPath: charts/demo-pg
-        valuesFiles:
-          - charts/demo-pg/env-values/{{ or .ENVIRONMENT_TYPE "dev" }}-values.yaml
 
       - &demo-idp
         name: demo-idp
