@@ -66,4 +66,4 @@ spec:
             - name: DB_USER
               value: {{ .Release.Namespace }}-demo-idp-sqluser
             - name: DB_PASSWORD
-              value: {{ .Values.demo-idp.sqluser.password }}
+              value: {{ .Values.sqluser.password }}
