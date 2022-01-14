@@ -22,7 +22,7 @@ deploy:
 
       - &demo-idp
         name: keycloak
-        chartPath: charts/keycloak
+        chartPath: charts/demo-idp
 
 profiles:
 
