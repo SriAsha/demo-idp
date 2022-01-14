@@ -20,6 +20,10 @@ deploy:
 
     releases:
 
+      - &demo-pg
+        name: demo-pg
+        chartPath: charts/demo-pg
+
       - &demo-idp
         name: demo-idp
         chartPath: charts/demo-idp
@@ -30,6 +34,7 @@ profiles:
     deploy:
       helm:
         releases:
+          - *demo-pg
           - *demo-idp
 
   - name: development-infrastructure-values

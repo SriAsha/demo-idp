@@ -6,7 +6,7 @@ metadata:
     kubernetes.io/ingress.class: "ip"
 spec:
   rules:
-    - host: demo-idp.ip.cicdv2.dev.rktlyr.com
+    - host: demo-idp.{{ .Values.ingress.clusterIpDomain }}
       http:
         paths:
             - path: /
