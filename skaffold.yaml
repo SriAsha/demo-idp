@@ -21,7 +21,7 @@ deploy:
     releases:
 
       - &demo-idp
-        name: keycloak
+        name: demo-idp
         chartPath: charts/demo-idp
 
 profiles:
