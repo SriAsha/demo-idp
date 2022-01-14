@@ -58,4 +58,12 @@ spec:
             - name: KEYCLOAK_PASSWORD
               value: admin
             - name: DB_VENDOR
-              value: h2
+              value: postgres
+            - name: DB_ADDR
+              value: {{ .Values.cloudSql.host }}:5432
+            - name: DB_DATABASE
+              value: {{ .Release.Namespace }}-demo-idp-database
+            - name: DB_USER
+              value: {{ .Release.Namespace }}-demo-idp-sqluser
+            - name: DB_PASSWORD
+              value: {{ .Values.demo-idp.sqluser.password }}
