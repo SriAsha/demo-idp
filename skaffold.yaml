@@ -1,0 +1,56 @@
+apiVersion: skaffold/v2beta4
+kind: Config
+build:
+  local:
+    concurrency: 8
+
+  tagPolicy:
+    gitCommit:
+      variant: AbbrevTreeSha
+
+deploy:
+  helm:
+    flags:
+      install:
+        - "--atomic=false" #automatically perform rollback
+        - "--timeout=4m"
+      upgrade:
+        - "--atomic=true"
+        - "--timeout=4m"
+
+    releases:
+
+      - &demo-pg
+        name: demo-pg
+        chartPath: charts/demo-pg
+
+      - &demo-idp
+        name: demo-idp
+        chartPath: charts/demo-idp
+
+profiles:
+
+  - name: demo
+    deploy:
+      helm:
+        releases:
+          - *demo-pg
+          - *demo-idp
+
+  - name: development-infrastructure-values
+    activation:
+      - env: ENVIRONMENT_TYPE=dev
+      - env: ENVIRONMENT_TYPE=
+    patches:
+      - op: add
+        path: &helm_install /deploy/helm/flags/install/-
+        value: "--values=env-values/dev-values.yaml"
+      - op: add
+        path: &helm_upgrade /deploy/helm/flags/upgrade/-
+        value: "--values=env-values/dev-values.yaml"
+      - op: add
+        path: *helm_install
+        value: '--values=https://storage.googleapis.com/cicdv2dev/infra.yaml'
+      - op: add
+        path: *helm_upgrade
+        value: '--values=https://storage.googleapis.com/cicdv2dev/infra.yaml'

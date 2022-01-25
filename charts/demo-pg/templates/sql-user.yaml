@@ -1,0 +1,11 @@
+apiVersion: sql.cnrm.cloud.google.com/v1beta1
+kind: SQLUser
+metadata:
+  name: {{ .Release.Namespace }}-demo-idp-sqluser
+  annotations:
+    cnrm.cloud.google.com/project-id: {{ .Values.gcpProject.id }}
+spec:
+  instanceRef:
+    external: {{ .Values.infrastructure.postgresInstanceName }}
+  password:
+    value: {{ .Values.sqluser.password }}
