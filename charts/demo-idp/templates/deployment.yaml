@@ -1,18 +1,20 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: demo-idp-ingress
-  annotations:
-    kubernetes.io/ingress.class: "ip"
 spec:
+  ingressClassName: ip
   rules:
     - host: demo-idp.{{ .Values.ingress.clusterIpDomain }}
       http:
         paths:
             - path: /
+              pathType: Prefix
               backend:
-                serviceName: demo-idp-service
-                servicePort: service-port
+                service:
+                  name: demo-idp-service
+                  port:
+                    name: service-port
 ---
 apiVersion: v1
 kind: Service
